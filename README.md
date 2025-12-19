@@ -3,7 +3,7 @@
 
 A full-stack train booking and analytics platform built with FastAPI, React, and MySQL. Features real-time analytics, beautiful visualizations, and a responsive dashboard for tracking bookings, revenue, and customer behavior.
 
-![Dashboard Screenshot](./docs/2025-12-19 002401.png)
+![Dashboard Screenshot](/docs/2025-12-19 002401.png)
 
 ---
 
