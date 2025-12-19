@@ -17,6 +17,8 @@ function AnalyticsDashboard() {
   const [dailyTrends, setDailyTrends] = useState([]);
   const [popularRoutes, setPopularRoutes] = useState([]);
   const [classDistribution, setClassDistribution] = useState([]);
+  const [topSpenders, setTopSpenders] = useState([]);
+  const [topJourneys, setTopJourneys] = useState([]);
 
   useEffect(() => {
     loadDashboardData();
@@ -27,16 +29,41 @@ function AnalyticsDashboard() {
     setError(null);
 
     try {
-      const response = await analyticsAPI.getDashboard(timeRange);
-      const data = response.data;
+
+    // Calculate date range for the selected time period
+      const endDate = new Date();
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - timeRange);
+
+      // Format dates as YYYY-MM-DD
+      const formatDate = (date) => {
+        return date.toISOString().split('T')[0];
+      };
+
+      const startDateStr = formatDate(startDate);
+      const endDateStr = formatDate(endDate);
+
+      // Get main dashboard data
+      const dashboardRes = await analyticsAPI.getDashboard(timeRange);
+      const data = dashboardRes.data;
 
       setOverview(data.overview);
       setDailyTrends(data.daily_trends);
       setPopularRoutes(data.popular_routes);
       setClassDistribution(data.class_distribution);
+
+      // Get additional data for top spenders and journeys
+       const [spendersRes, journeysRes] = await Promise.all([
+        analyticsAPI.getTopSpenders(5, startDateStr, endDateStr),
+        analyticsAPI.getJourneyPerformance(5, startDateStr, endDateStr)
+      ]);
+
+      setTopSpenders(spendersRes.data);
+      setTopJourneys(journeysRes.data);
+
     } catch (err) {
       console.error('Error loading dashboard:', err);
-      setError('Failed to load analytics data');
+      setError('Failed to load analytics data. Make sure the backend is running.');
     } finally {
       setLoading(false);
     }
@@ -56,6 +83,12 @@ function AnalyticsDashboard() {
         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
           {error}
         </div>
+        <button
+          onClick={loadDashboardData}
+          className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -140,7 +173,7 @@ function AnalyticsDashboard() {
         </ResponsiveContainer>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         {/* Popular Routes */}
         <div className="bg-white shadow-lg rounded-lg p-6">
           <h2 className="text-xl font-bold mb-4">Popular Routes</h2>
@@ -214,6 +247,62 @@ function AnalyticsDashboard() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+
+       {/* Bottom Row: Top Spenders and Journeys - NOW UPDATES WITH TIME RANGE! */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Top Spenders */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-xl font-bold mb-2">Top 5 Spenders</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Based on last {timeRange} days
+          </p>
+          {topSpenders.length > 0 ? (
+            topSpenders.map((p, index) => (
+              <div key={index} className="flex justify-between border-b py-2">
+                <div>
+                  <div className="font-medium">{p.name}</div>
+                  <div className="text-sm text-gray-500">{p.email}</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-semibold text-green-600">
+                    ${p.total_spent.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    {p.total_bookings} bookings
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No data available for this period</p>
+          )}
+        </div>
+
+        {/* Top Journeys */}
+        <div className="bg-white shadow-lg rounded-lg p-6">
+          <h2 className="text-xl font-bold mb-2">Top 5 Journeys</h2>
+          <p className="text-sm text-gray-500 mb-4">
+            Based on last {timeRange} days
+          </p>
+          {topJourneys.length > 0 ? (
+            topJourneys.map((j, index) => (
+              <div key={index} className="flex justify-between border-b py-2">
+                <div className="font-medium">{j.journey_name}</div>
+                <div className="text-right">
+                  <div className="text-sm text-gray-600">
+                    {j.total_bookings} bookings
+                  </div>
+                  <div className="font-semibold text-green-600">
+                    ${j.total_revenue.toLocaleString()}
+                  </div>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-gray-500">No data available for this period</p>
+          )}
         </div>
       </div>
     </div>

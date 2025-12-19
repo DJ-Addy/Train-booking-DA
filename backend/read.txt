@@ -107,4 +107,5 @@ CONSTRAINT fk_booking_class FOREIGN KEY (ticket_class_id) REFERENCES
 carriage_class (id)
 );
 
+Generating 90 days of data:
 

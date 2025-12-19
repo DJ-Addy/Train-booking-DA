@@ -269,7 +269,7 @@ def get_analytics_dashboard(
 ):
     """
     Get comprehensive analytics dashboard data in one call.
-    All analytics powered by a single pandas DataFrame for efficiency.
+    At scale would fail would need to switch to caching and aggregation
     """
     end_date = date.today()
     start_date = end_date - timedelta(days=days)
@@ -287,18 +287,22 @@ def get_analytics_dashboard(
         class_distribution=class_distribution
     )
 
-
 # ============================================================================
 # PASSENGER ANALYTICS
 # ============================================================================
 
 @router.get("/passengers/top-spenders")
 def get_top_spending_passengers(
-        limit: int = Query(10, ge=1, le=50),
+        limit: int = Query(5, ge=1, le=50),
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None,
         db: Session = Depends(get_db)
 ):
-    """Get top spending passengers using pandas"""
-    df = get_bookings_df(db)
+    """
+    Get top spending passengers using pandas
+    Now accepts date range parameters to filter by time period
+    """
+    df = get_bookings_df(db, start_date, end_date)
 
     if df.empty:
         return []
@@ -329,11 +333,16 @@ def get_top_spending_passengers(
 
 @router.get("/journeys/performance")
 def get_journey_performance(
-        limit: int = Query(10, ge=1, le=50),
+        limit: int = Query(5, ge=1, le=50),
+        start_date: Optional[date] = None,
+        end_date: Optional[date] = None,
         db: Session = Depends(get_db)
 ):
-    """Get journey performance metrics using pandas"""
-    df = get_bookings_df(db)
+    """
+    Get journey performance metrics using pandas
+    Now accepts date range parameters to filter by time period
+    """
+    df = get_bookings_df(db, start_date, end_date)
 
     if df.empty:
         return []

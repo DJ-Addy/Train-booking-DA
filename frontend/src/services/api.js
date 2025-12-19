@@ -94,13 +94,25 @@ export const analyticsAPI = {
       params: { start_date: startDate, end_date: endDate }
     }),
 
-  // Top spending passengers
-  getTopSpenders: (limit = 10) =>
-    api.get(`/analytics/passengers/top-spenders?limit=${limit}`),
 
-  // Journey performance
-  getJourneyPerformance: (limit = 10) =>
-    api.get(`/analytics/journeys/performance?limit=${limit}`),
+  // Top spending passengers - NOW WITH DATE RANGE!
+  getTopSpenders: (limit = 5, startDate = null, endDate = null) =>
+    api.get('/analytics/passengers/top-spenders', {
+      params: {
+        limit,
+        ...(startDate && { start_date: startDate }),
+        ...(endDate && { end_date: endDate })
+      }
+    }),
+
+  // Journey performance - NOW WITH DATE RANGE!
+  getJourneyPerformance: (limit = 5, startDate = null, endDate = null) =>
+    api.get('/analytics/journeys/performance', {
+      params: {
+        limit,
+        ...(startDate && { start_date: startDate }),
+        ...(endDate && { end_date: endDate })
+      }
+    }),
 };
-
 export default api;
