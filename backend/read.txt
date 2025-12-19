@@ -1,0 +1,110 @@
+verison:Python 3.9.13
+
+
+SQL STARTING QUERY:
+CREATE DATABASE train_booking;
+USE train_booking;
+DROP TABLE IF EXISTS booking;
+DROP TABLE IF EXISTS passenger;
+DROP TABLE IF EXISTS booking_status;
+DROP TABLE IF EXISTS journey_carriage;
+DROP TABLE IF EXISTS carriage_price;
+DROP TABLE IF EXISTS carriage_class;
+DROP TABLE IF EXISTS journey_station;
+DROP TABLE IF EXISTS train_station;
+DROP TABLE IF EXISTS train_journey;
+DROP TABLE IF EXISTS schedule;
+CREATE TABLE schedule (
+id INT AUTO_INCREMENT,
+name VARCHAR(200),
+CONSTRAINT pk_schedule PRIMARY KEY (id)
+);
+CREATE TABLE train_journey (
+id INT AUTO_INCREMENT,
+schedule_id INT,
+name VARCHAR(500),
+CONSTRAINT pk_trainjourney PRIMARY KEY (id),
+CONSTRAINT fk_ts_schedule FOREIGN KEY (schedule_id) REFERENCES
+schedule (id)
+);
+
+CREATE TABLE train_station (
+id INT AUTO_INCREMENT,
+station_name VARCHAR(200),
+CONSTRAINT pk_trainstation PRIMARY KEY (id)
+);
+CREATE TABLE journey_station (
+journey_id INT,
+station_id INT,
+stop_order INT,
+departure_time DATETIME,
+CONSTRAINT fk_js_journey FOREIGN KEY (journey_id) REFERENCES
+train_journey (id),
+CONSTRAINT fk_js_station FOREIGN KEY (station_id) REFERENCES
+train_station (id)
+);
+CREATE TABLE carriage_class (
+id INT AUTO_INCREMENT,
+class_name VARCHAR(50),
+seating_capacity INT,
+CONSTRAINT pk_carclass PRIMARY KEY (id)
+);
+CREATE TABLE carriage_price (
+schedule_id INT,
+carriage_class_id INT,
+price INT,
+CONSTRAINT fk_carprice_schedule FOREIGN KEY (schedule_id) REFERENCES
+schedule (id),
+CONSTRAINT fk_carprice_class FOREIGN KEY (carriage_class_id)
+REFERENCES carriage_class (id)
+);
+CREATE TABLE journey_carriage (
+journey_id INT,
+carriage_class_id INT,
+position INT,
+CONSTRAINT fk_jc_journey FOREIGN KEY (journey_id) REFERENCES
+train_journey (id),
+CONSTRAINT fk_jc_carclass FOREIGN KEY (carriage_class_id) REFERENCES
+carriage_class (id)
+);
+CREATE TABLE booking_status (
+id INT AUTO_INCREMENT,
+name VARCHAR(50),
+CONSTRAINT pk_bookingstatus PRIMARY KEY (id)
+);
+CREATE TABLE passenger (
+id INT AUTO_INCREMENT,
+first_name VARCHAR(500),
+last_name VARCHAR(500),
+email_address VARCHAR(350),
+password VARCHAR(500),
+CONSTRAINT pk_passenger PRIMARY KEY (id)
+);
+CREATE TABLE booking (
+id INT AUTO_INCREMENT,
+passenger_id INT,
+status_id INT,
+booking_date DATE,
+starting_station_id INT,
+ending_station_id INT,
+train_journey_id INT,
+ticket_class_id INT,
+amount_paid INT,
+ticket_no INT,
+seat_no VARCHAR(5),
+CONSTRAINT pk_booking PRIMARY KEY (id),
+CONSTRAINT fk_booking_passenger FOREIGN KEY (passenger_id) REFERENCES
+passenger (id),
+CONSTRAINT fk_booking_status FOREIGN KEY (status_id) REFERENCES
+booking_status (id),
+CONSTRAINT fk_booking_startstn FOREIGN KEY (starting_station_id)
+REFERENCES train_station (id),
+CONSTRAINT fk_booking_endstn FOREIGN KEY (ending_station_id)
+REFERENCES train_station (id),
+CONSTRAINT fk_booking_journey FOREIGN KEY (train_journey_id)
+REFERENCES train_journey (id),
+CONSTRAINT fk_booking_class FOREIGN KEY (ticket_class_id) REFERENCES
+carriage_class (id)
+);
+
+

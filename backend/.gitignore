@@ -1,0 +1,313 @@
+# ============================================================================
+# Train Booking System - .gitignore
+# ============================================================================
+# This file tells Git which files to ignore and NOT commit to the repository
+# ============================================================================
+
+# ============================================================================
+# ENVIRONMENT & SECRETS
+# ============================================================================
+.env
+.env.local
+.env.*.local
+*.env
+.env.*
+config.local.js
+
+# ============================================================================
+# PYTHON / FASTAPI BACKEND
+# ============================================================================
+
+# Virtual Environment
+venv/
+env/
+ENV/
+backend/venv/
+backend/env/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# ============================================================================
+# NODE / REACT FRONTEND
+# ============================================================================
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Build output
+dist/
+dist-ssr/
+frontend/dist/
+frontend/build/
+build/
+
+# Vite
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# TypeScript
+*.tsbuildinfo
+
+# Package manager lock files (optional - uncomment if you want to ignore)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# ============================================================================
+# LOGS
+# ============================================================================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ============================================================================
+# OPERATING SYSTEM FILES
+# ============================================================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ============================================================================
+# IDEs & EDITORS
+# ============================================================================
+
+# VSCode
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.code-workspace
+
+# PyCharm / IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+.idea_modules/
+out/
+
+# Sublime Text
+*.sublime-workspace
+*.sublime-project
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+Session.vim
+Sessionx.vim
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# ============================================================================
+# DATABASE
+# ============================================================================
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# MySQL dumps
+*.sql.gz
+backup_*.sql
+
+# Database credentials (double-check these are in .env)
+database.yml
+db_config.py
+
+# ============================================================================
+# TEMPORARY FILES
+# ============================================================================
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.cache/
+tmp/
+temp/
+
+# ============================================================================
+# UPLOADS & USER DATA
+# ============================================================================
+uploads/
+user-uploads/
+static/uploads/
+media/
+
+# ============================================================================
+# TESTING
+# ============================================================================
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+coverage/
+*.cover
+
+# ============================================================================
+# DOCUMENTATION (optional - uncomment if you don't want to commit docs builds)
+# ============================================================================
+# docs/_build/
+# docs/.doctrees/
+# site/
+
+# ============================================================================
+# MISC
+# ============================================================================
+.sass-cache/
+connect.lock
+typings/
+.npm
+.eslintcache
+.stylelintcache
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+
+# Local History for Visual Studio Code
+.history/
+
+# Temporary folders
+tmp/
+temp/
+
+# ============================================================================
+# PROJECT SPECIFIC
+# ============================================================================
+
+# Don't commit large dummy data files (optional)
+# *_dummy_data.sql
+
+# Don't commit personal notes
+NOTES.md
+TODO.md
+.personal/
+
+# Don't commit environment-specific configs
+config.local.json
+settings.local.py
+
+# ============================================================================
+# SECURITY - NEVER COMMIT THESE!
+# ============================================================================
+*.pem
+*.key
+*.cert
+*.crt
+id_rsa
+id_rsa.pub
+*.ppk
+secrets.json
+credentials.json
+service-account.json
+.aws/
+.gcp/
+
+# API Keys (double-check your .env is ignored!)
+.api-keys
+apikeys.json
