@@ -16,6 +16,8 @@ A full-stack train booking and analytics platform built with FastAPI, React, and
 *Daily booking and revenue trends visualization*
 
 ### Database Schema
+<img width="1271" height="892" alt="Screenshot 2025-12-19 004515" src="https://github.com/user-attachments/assets/3a95e66d-f14b-46d8-9245-435979a092fd" />
+
 
 
 *Complete entity relationship diagram for the train booking system*
